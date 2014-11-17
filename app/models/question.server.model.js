@@ -10,20 +10,30 @@ var mongoose = require('mongoose'),
  * Question Schema
  */
 var QuestionSchema = new Schema({
-	name: {
+	sentence: {
 		type: String,
-		default: '',
-		required: 'Please fill Question name',
+		required: 'Please fill Question\'s sentence.',
 		trim: true
 	},
+	answers: [{
+		answer: {
+			type: String,
+			required: 'Please fill the Question\'s answer',
+			trim: true
+		},
+		isActive: {
+			type: Boolean,
+			default: false
+		}
+	}],
 	created: {
 		type: Date,
 		default: Date.now
 	},
-	user: {
+	creator: {
 		type: Schema.ObjectId,
 		ref: 'User'
 	}
 });
 
-mongoose.model('Question', QuestionSchema);
+mongoose.model('Question', QuestionSchema); 
