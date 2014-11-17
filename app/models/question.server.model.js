@@ -6,6 +6,8 @@
 var mongoose = require('mongoose'),
 	Schema = mongoose.Schema;
 
+var QuestionTypes = 'multiple-choice boolean single-blank enumeration'.split(' ');
+
 /**
  * Question Schema
  */
@@ -26,6 +28,10 @@ var QuestionSchema = new Schema({
 			default: false
 		}
 	}],
+	type: {
+		type: String,
+		enum: QuestionTypes
+	},
 	created: {
 		type: Date,
 		default: Date.now
