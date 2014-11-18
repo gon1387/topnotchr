@@ -23,7 +23,7 @@ var QuestionSchema = new Schema({
 			required: 'Please fill the Question\'s answer',
 			trim: true
 		},
-		isActive: {
+		isRight: {
 			type: Boolean,
 			default: false
 		}
