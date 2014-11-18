@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-	Schema = mongoose.Schema;
+	Schema = mongoose.Schema,
+	_ = require('lodash');
 
 var QuestionTypes = 'multiple-choice boolean single-blank enumeration'.split(' ');
 
@@ -20,7 +21,7 @@ var QuestionSchema = new Schema({
 	answers: [{
 		answer: {
 			type: String,
-			required: 'Please fill the Question\'s answer',
+			required: 'Please fill-in an answer.',
 			trim: true
 		},
 		isRight: {
@@ -41,5 +42,29 @@ var QuestionSchema = new Schema({
 		ref: 'User'
 	}
 });
+
+/***************************
+	VALIDATORS
+***************************/
+var arrayEmptyValidator = function(answers) {
+	if(!answers) return false;
+	if(answers.length == 0) return false;
+	return true;
+};
+
+var hasCorrectAnswerValidator = function(answers){
+	if(!answers) return false;
+
+	var hasNoRight = false;
+
+	_.each(answers, function(answer){
+		if(answer.isRight) hasNoRight = true;
+	});
+
+	return hasNoRight;
+};
+
+QuestionSchema.path('answers').validate(arrayEmptyValidator, 'Please add atleast one answer');
+QuestionSchema.path('answers').validate(hasCorrectAnswerValidator, 'Please add atleast one right answer');
 
 mongoose.model('Question', QuestionSchema); 

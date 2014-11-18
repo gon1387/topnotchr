@@ -29,8 +29,16 @@ describe('Question Model Unit Tests:', function() {
 
 		user.save(function() { 
 			question = new Question({
-				name: 'Question Name',
-				user: user
+				sentence: 'Question Sentence',
+				answers: [{
+					answer: 'true',
+					isRight: true
+				},{
+					answer: 'false',
+					isRight: false
+				}],
+				type: 'boolean',
+				creator: user
 			});
 
 			done();
@@ -45,10 +53,37 @@ describe('Question Model Unit Tests:', function() {
 			});
 		});
 
-		it('should be able to show an error when try to save without name', function(done) { 
-			question.name = '';
+		it('should be able to show an error when try to save without sentence', function(done) { 
+			question.sentence = '';
 
 			return question.save(function(err) {
+				should.exist(err);
+				done();
+			});
+		});
+
+		it('should be able to show an error when trying to save without answer', function(done) {
+			question.answers = [];
+
+			return question.save(function(err) {
+				should.exist(err);
+				done();
+			});
+		});
+
+		it('should be able to show an error when no answer\'s right', function(done){
+			question.answers[0].isRight = false;
+
+			return question.save(function(err){
+				should.exist(err);
+				done();
+			});
+		});
+
+		it('should be able to show an error when an answer is empty', function(done){
+			question.answers[1].answer = ' ';
+
+			return question.save(function(err){
 				should.exist(err);
 				done();
 			});
