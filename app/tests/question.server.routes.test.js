@@ -5,13 +5,14 @@ var should = require('should'),
 	app = require('../../server'),
 	mongoose = require('mongoose'),
 	User = mongoose.model('User'),
+	Category = mongoose.model('Category'),
 	Question = mongoose.model('Question'),
 	agent = request.agent(app);
 
 /**
  * Globals
  */
-var credentials, user, question;
+var credentials, user, category, question;
 
 /**
  * Question routes tests
@@ -37,20 +38,27 @@ describe('Question CRUD tests', function() {
 
 		// Save a user to the test db and create new Question
 		user.save(function() {
-			question = {
-				sentence: 'Question Sentence',
-				answers: [{
-					answer: 'true',
-					isRight: true
-				},{
-					answer: 'false',
-					isRight: false
-				}],
-				type: 'boolean',
-				user: user._id
-			};
+			category = new Category({
+				name: 'Category one'
+			});
 
-			done();
+			category.save(function(){
+				question = {
+					categories:[category._id],
+					sentence: 'Question Sentence',
+					answers: [{
+						answer: 'true',
+						isRight: true
+					},{
+						answer: 'false',
+						isRight: false
+					}],
+					type: 'boolean',
+					user: user._id
+				};
+
+				done();
+			});
 		});
 	});
 

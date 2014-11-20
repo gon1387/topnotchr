@@ -73,7 +73,10 @@ exports.delete = function(req, res) {
  * List of Questions
  */
 exports.list = function(req, res) { 
-	Question.find().sort('-created').populate('user', 'displayName').exec(function(err, questions) {
+	Question.find().sort('-created')
+	.populate('user', 'displayName')
+	.populate('categories')
+	.exec(function(err, questions) {
 		if (err) {
 			return res.status(400).send({
 				message: errorHandler.getErrorMessage(err)
@@ -88,13 +91,16 @@ exports.list = function(req, res) {
  * Question middleware
  */
 exports.questionByID = function(req, res, next, id) { 
-	Question.findById(id).populate('user', 'displayName').exec(function(err, question) {
+	Question.findById(id)
+	.populate('user', 'displayName')
+	.populate('categories')
+	.exec(function(err, question) {
 		if (err) return next(err);
 		if (! question) return next(new Error('Failed to load Question ' + id));
 		req.question = question ;
 		next();
 	});
-};
+};	
 
 /**
  * Question authorization middleware

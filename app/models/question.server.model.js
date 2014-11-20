@@ -25,7 +25,11 @@ var QuestionTypes = 'multiple-choice boolean single-blank enumeration'.split(' '
  * Question Schema
  */
 var QuestionSchema = new Schema({
-	sentence: {
+	categories: [{
+		type: Schema.ObjectId,
+		ref: 'Category'
+	}],
+	sentence: {	
 		type: String,
 		required: 'Please fill Question\'s sentence.',
 		trim: true
