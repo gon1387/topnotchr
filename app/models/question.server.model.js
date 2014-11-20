@@ -7,6 +7,18 @@ var mongoose = require('mongoose'),
 	Schema = mongoose.Schema,
 	_ = require('lodash');
 
+var AnswersSchema = new Schema({
+		answer: {
+			type: String,
+			required: 'Please fill-in an answer.',
+			trim: true
+		},
+		isRight: {
+			type: Boolean,
+			default: false
+		}
+	}, {id: false});
+
 var QuestionTypes = 'multiple-choice boolean single-blank enumeration'.split(' ');
 
 /**
@@ -18,30 +30,26 @@ var QuestionSchema = new Schema({
 		required: 'Please fill Question\'s sentence.',
 		trim: true
 	},
-	answers: [{
-		answer: {
-			type: String,
-			required: 'Please fill-in an answer.',
-			trim: true
-		},
-		isRight: {
-			type: Boolean,
-			default: false
-		}
-	}],
+	answers: [AnswersSchema],
 	type: {
 		type: String,
-		enum: QuestionTypes
+		enum: QuestionTypes,
+		default: 'single-blank'
 	},
 	created: {
 		type: Date,
 		default: Date.now
 	},
-	creator: {
+	user: {
 		type: Schema.ObjectId,
 		ref: 'User'
 	}
 });
+
+/***************************
+	STATIC
+***************************/
+QuestionSchema.statics.QUESTION_TYPES = QuestionTypes;
 
 /***************************
 	VALIDATORS
@@ -67,4 +75,5 @@ var hasCorrectAnswerValidator = function(answers){
 QuestionSchema.path('answers').validate(arrayEmptyValidator, 'Please add atleast one answer');
 QuestionSchema.path('answers').validate(hasCorrectAnswerValidator, 'Please add atleast one right answer');
 
+//mongoose.model('Answer', AnswersSchema); 
 mongoose.model('Question', QuestionSchema); 
