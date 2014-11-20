@@ -74,7 +74,6 @@ describe('Category CRUD tests', function() {
 								var categories = categoriesGetRes.body;
 
 								// Set assertions
-								(categories[0].user._id).should.equal(userId);
 								(categories[0].name).should.match('Category Name');
 
 								// Call the assertion callback

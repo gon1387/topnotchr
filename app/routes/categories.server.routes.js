@@ -11,8 +11,8 @@ module.exports = function(app) {
 
 	app.route('/categories/:categoryId')
 		.get(categories.read)
-		.put(users.requiresLogin, categories.hasAuthorization, categories.update)
-		.delete(users.requiresLogin, categories.hasAuthorization, categories.delete);
+		.put(users.requiresLogin, categories.update)
+		.delete(users.requiresLogin, categories.delete);
 
 	// Finish by binding the Category middleware
 	app.param('categoryId', categories.categoryByID);

@@ -29,8 +29,7 @@ describe('Category Model Unit Tests:', function() {
 
 		user.save(function() { 
 			category = new Category({
-				name: 'Category Name',
-				user: user
+				name: 'Category Name'
 			});
 
 			done();
