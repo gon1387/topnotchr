@@ -100,7 +100,10 @@ exports.questionByID = function(req, res, next, id) {
 		req.question = question ;
 		next();
 	});
-};	
+};
+exports.getTypes = function(){
+	jsonp(Question.QUESTION_TYPES);
+};
 
 /**
  * Question authorization middleware

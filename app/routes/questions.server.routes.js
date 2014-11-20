@@ -14,6 +14,9 @@ module.exports = function(app) {
 		.put(users.requiresLogin, questions.hasAuthorization, questions.update)
 		.delete(users.requiresLogin, questions.hasAuthorization, questions.delete);
 
+	app.route('/questions/types')
+		.get(questions.getTypes);
+
 	// Finish by binding the Question middleware
 	app.param('questionId', questions.questionByID);
 };
