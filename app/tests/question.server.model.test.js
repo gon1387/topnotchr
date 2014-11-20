@@ -38,7 +38,7 @@ describe('Question Model Unit Tests:', function() {
 					isRight: false
 				}],
 				type: 'boolean',
-				creator: user
+				user: user
 			});
 
 			done();
@@ -88,6 +88,12 @@ describe('Question Model Unit Tests:', function() {
 				done();
 			});
 		});
+	});
+
+	describe('Method update', function(){
+		it('should be able to update without problem');
+		it('should be able to show an error when trying to update without a sentence');
+		it('should be able to show an error when trying to update without answer');
 	});
 
 	afterEach(function(done) { 
